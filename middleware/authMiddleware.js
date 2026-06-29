@@ -13,7 +13,7 @@ const authMiddleware = async(req,res,next) =>{
         //now work with token
         let token = authHeader.split(" ")[1];
         const decoded = jwt.verify(token,process.env.SECRET_KEY);
-        const user = await User.findById({id:decoded.id});
+        const user = await User.findById(decoded.id).select("-password");
 
         //without passsword
         if(!user){
