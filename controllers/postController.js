@@ -130,5 +130,44 @@ const updatePost = async(req,res)=>{
     }
 };
 
+const deletePost = async (req, res) => {
+    try {
+        console.log(req.body);
+        const { id } = req.params;
+        const { title, content } = req.body;
 
-module.exports= {createPost,getAllPost,getMyPost,getSinglePost}
+        let post = await Post.findById(id);
+        if(!post){
+            return res.status(401).json({
+                success:false,
+                message:"Post Not Found"
+            })
+        }
+
+        console.log(req.user);
+        if(post.user.toString() !== req.user._id.toString()){
+            return res.status(403).json({
+                success:false,
+                message:"You can only delete your own Post"
+            });
+        }
+
+        await Post.findByIdAndDelete(id);
+
+        res.status(200).json({
+            success:true,
+            message:"Post Deleted",
+            post
+        });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            message: "Unable to Update Post",
+            error: err.message
+        })
+    }
+};
+
+module.exports= {createPost,getAllPost,getMyPost,getSinglePost , updatePost,deletePost}
