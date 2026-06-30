@@ -3,9 +3,9 @@ const User = require("../models/User")
 
 const authMiddleware = async(req,res,next) =>{
     try{
-        const  authHeader = req.headers.authorization;
-        if(!authHeader || authHeader.startswith("Bearer ")){
-            return res.status(401).json({
+        const authHeader = req.headers.authorization;
+        if(!authHeader || authHeader.startsWith("Bearer ")){
+            return res.status(401).json({ 
                 success:false,
                 Msg:"token not found"
             })
@@ -31,7 +31,7 @@ const authMiddleware = async(req,res,next) =>{
         console.log("some error in authentication",err);
         return res.json({
             success:false,
-            msg:"Invalid Token"
+            msg:"Invalid Token" 
         });
         
     }

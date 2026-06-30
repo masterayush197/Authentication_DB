@@ -68,6 +68,11 @@ const profile = (req,res)=>{
     })
 };
 
-const logout = ()=>{};
+const logout = (req,res)=>{
+    res.json({
+        success:true,
+        msg:"logout successfully"
+    })
+};
 
 module.exports={register,login,profile,logout};
